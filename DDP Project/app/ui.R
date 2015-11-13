@@ -4,7 +4,7 @@ library(shiny)
 shinyUI(fluidPage(
 
     # Application title
-    titlePanel("Tabsets"),
+    titlePanel("NYC Animal Abuse Complaints"),
 
     # Sidebar with controls to select the random distribution type
     # and number of observations to generate. Note the use of the
