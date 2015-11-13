@@ -2,4 +2,4 @@
 #
 #
 
-shinyApp((ui = ui, server = server))
+shinyApp((ui = shinyUI, server = shinyServer))

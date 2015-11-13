@@ -1,0 +1,13 @@
+---
+title: "NYC Animal Abuse Complaints"
+author: "Harold Trammel"
+date: "November 13, 2015"
+output: html_document
+---
+
+## Scope
+
+New York city provides 311 Complaint data via their NYC OpenData website ( https://nycopendata.socrata.com/).  
+
+The base dataset is the _311 Service Requests from 2010 to Present_ filtered to include only records with the complaint _Animal Abuse_.  The URL for this data is 
+https://data.cityofnewyork.us/Social-Services/311-Service-Requests-from-2010-to-Present/erm2-nwe9. The dataset includes complaints through October 31, 2015.

@@ -1,3 +1,4 @@
+library(shiny)
 system.file("examples", package="shiny")
 
 runExample("01_hello") # a histogram

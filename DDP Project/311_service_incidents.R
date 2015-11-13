@@ -13,3 +13,23 @@ abuse_df <- base_df %>%
             select(-starts_with("Ferry")) %>%
             select(-starts_with("Road")) %>%
             select(-starts_with("Vehicle"))
+
+res_levels <- levels(abuse_df$Resolution.Description)
+
+
+abrv_levels <- c("Issued summons",
+	"Made arrest",
+	"Responsible parties were gone",
+	"Prepared report",
+	"Police action unecessary",
+	"Took action to fix condition",
+	"No evidence of violation seen",
+	"Unable to enter the premises",
+	"Provided additional information",
+	"Not NYPD jurisdiction",
+	"Non-emergency response",
+	"Will provide information later",
+	"Insufficient contact information")
+
+library(plyr)
+abuse_df$Resolution.Description <- mapvalues(abuse_df$Resolution.Description, from = res_levels, to = abrv_levels)
