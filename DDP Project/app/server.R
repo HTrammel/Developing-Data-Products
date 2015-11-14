@@ -39,4 +39,10 @@ shinyServer(function(input, output) {
     output$table <- renderTable({
         data.frame(x=data())
     })
+
+    # Generate an HTML table view of the data
+    output$map <- renderPlot({
+        data.frame(x=data())
+    })
+
 })

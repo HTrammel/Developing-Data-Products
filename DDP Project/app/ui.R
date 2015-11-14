@@ -11,12 +11,18 @@ shinyUI(fluidPage(
     # br() element to introduce extra vertical spacing
     sidebarLayout(
         sidebarPanel(
-            radioButtons("dist", "Distribution type:",
-                         c("Normal" = "norm",
-                           "Uniform" = "unif",
-                           "Log-normal" = "lnorm",
-                           "Exponential" = "exp")),
-            br(),
+            helpText("Select factor"),
+      
+        selectInput("var", "Variable:",
+                list("Cylinders" = "cyl", 
+                     "Transmission" = "am", 
+                     "Gears" = "gear")),
+
+    checkboxInput("outliers", "Show outliers", FALSE)
+            choices = c("Descriptor", "Location.Type",
+              "Resolution.Description", "Borough"),
+            selected = "Descriptor"),
+                br(),
 
             sliderInput("n",
                         "Number of observations:",
@@ -31,7 +37,8 @@ shinyUI(fluidPage(
             tabsetPanel(type = "tabs",
                         tabPanel("Plot", plotOutput("plot")),
                         tabPanel("Summary", verbatimTextOutput("summary")),
-                        tabPanel("Table", tableOutput("table"))
+                        tabPanel("Table", tableOutput("table")),
+                        tabPanel("Map", tableOutput("map"))
             )
         )
     )
