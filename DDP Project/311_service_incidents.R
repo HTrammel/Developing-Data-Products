@@ -1,37 +1,42 @@
 # Read animal abuse form
 library(dplyr)
 library(lubridate)
+library(plyr)
 
-
+# read data from file
 if(!file.exists("./data")) {dir.create("./data")}
 base_df <- read.csv("./data/Animal_Abuse_Complaints.csv",na.strings = "NA")
 
+# convert dates from factors to POSIXlt
+base_df$Created.Date <- parse_date_time(as.character(base_df$Created.Date), orders="mdy hms")
+base_df$Closed.Date <- parse_date_time(as.character(base_df$Closed.Date), orders="mdy hms")
+
+base_df$create_yr <- year(base_df$Created.Date)
+base_df$create_mon <- month(base_df$Created.Date, label = TRUE, abbr = TRUE)
+base_df$create_wday <- wday(base_df$Created.Date, label = TRUE, abbr = TRUE)
+
+base_df$close_yr <- year(base_df$Closed.Date)
+base_df$close_mon <- month(base_df$Closed.Date, label = TRUE, abbr = TRUE)
+base_df$close_wday <- wday(base_df$Closed.Date, label = TRUE, abbr = TRUE)
+
+# remove unneeded columns
 abuse_df <- base_df %>%
-    select(-Landmark) %>%
-    select(-Community.Board) %>%
-    select(-Street.Name) %>%
-    select(-contains("Coordinate")) %>%
-    select(-contains("Address")) %>%
-    select(-starts_with("Agency")) %>%
-    select(-starts_with("Facility")) %>%
-    select(-starts_with("Cross")) %>%
-    select(-starts_with("Intersection")) %>%
-    select(-starts_with("Complaint")) %>%
-    select(-starts_with("School")) %>%
-    select(-starts_with("Garage")) %>%
-    select(-starts_with("Bridge")) %>%
-    select(-starts_with("Taxi")) %>%
-    select(-starts_with("Ferry")) %>%
-    select(-starts_with("Park")) %>%
-    select(-starts_with("Road")) %>%
-    select(-Location) %>%
-    select(-starts_with("Vehicle"))
+    select(one_of(c("Descriptor",
+                    "Location.Type",
+                    "Incident.Zip",
+                    "City",
+                    "Status",
+                    "Resolution.Description",
+                    "Borough",
+                    "create_yr",
+                    "create_mon",
+                    "create_wday",
+                    "close_yr",
+                    "close_mon",
+                    "close_wday"))) %>%
+    mutate(cnt=1)
 
-abuse_df$Created.Date <- parse_date_time(as.character(abuse_df$Created.Date), orders="mdy hms")
-abuse_df$Closed.Date <- parse_date_time(as.character(abuse_df$Closed.Date), orders="mdy hms")
-abuse_df$Due.Date <- parse_date_time(as.character(abuse_df$Due.Date), orders="mdy hms")
-abuse_df$Resolution.Action.Updated.Date <- parse_date_time(as.character(abuse_df$Resolution.Action.Updated.Date), orders="mdy hms")
-
+# convert resolution data into usable form
 res_levels <- levels(abuse_df$Resolution.Description)
 
 abrv_levels <- c("Issued summons",
@@ -48,23 +53,26 @@ abrv_levels <- c("Issued summons",
 	"Will provide information later",
 	"Insufficient contact information")
 
-library(plyr)
-abuse_df$Resolution.Description <- mapvalues(abuse_df$Resolution.Description, from = res_levels, to = abrv_levels)
+abuse_df$Resolution.Description <- mapvalues(abuse_df$Resolution.Description,
+                                             from = res_levels,
+                                             to = abrv_levels)
 
-new_names <- c("Key",
-               "Open.Date",
-               "Close.Date",
-               "Complaint.Type",
+new_names <- c("Complaint.Type",
                "Location.Type",
                "Incident.Zip",
                "City",
                "Incident.Status",
-               "Due.Date",
                "Resolution.Type",
-               "Resolution.Date",
                "Borough",
-               "Latitude",
-               "Longitude")
+               "Create_YR",
+               "Create_MO",
+               "Create_Wday",
+               "Close_YR",
+               "Close_MO",
+               "Close_Wday",
+               "Count")
 names(abuse_df) <- new_names
 
+# save data frome for future use
 saveRDS(abuse_df, "./data/abuse_df.rds")
+saveRDS(abuse_df, "./app/data/abuse_df.rds")
