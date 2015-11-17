@@ -1,26 +1,30 @@
 library(dplyr)
+library(tidyr)
 library(lubridate)
 library(ggplot2)
 library(caret)
 library(mlbench)
 library(car)
 
+
 data("Angell")
-
 angell <- Angell
+df <- cbind(angell, city = rownames(df))
 
-mor_pl <- ggplot(angell, aes(moral)) +
-            geom_histogram()
+print(summary(df))
+
+mor_pl <- ggplot(df, aes(moral)) +
+            geom_histogram(stat="bin")
 print(mor_pl)
 
-het_pl <- ggplot(angell, aes(hetero)) +
+het_pl <- ggplot(df, aes(hetero)) +
     geom_histogram(stat="bin")
 print(het_pl)
 
-mob_pl <- ggplot(angell, aes(mobility)) +
-    geom_histogram()
+mob_pl <- ggplot(df, aes(mobility)) +
+    geom_histogram(stat="bin")
 print(mob_pl)
 
-reg_pl <- ggplot(angell, aes(region)) +
-    geom_histogram()
+reg_pl <- ggplot(df, aes(region)) +
+    geom_histogram(stat="bin")
 print(reg_pl)
