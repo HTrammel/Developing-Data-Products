@@ -13,6 +13,7 @@ base_df$Closed.Date <- parse_date_time(as.character(base_df$Closed.Date), orders
 
 base_df$create_yr <- year(base_df$Created.Date)
 base_df$create_mon <- month(base_df$Created.Date, label = TRUE, abbr = TRUE)
+base_df$create_mo <- month(base_df$Created.Date)
 base_df$create_wday <- wday(base_df$Created.Date, label = TRUE, abbr = TRUE)
 
 base_df$close_yr <- year(base_df$Closed.Date)
@@ -30,28 +31,31 @@ abuse_df <- base_df %>%
                     "Borough",
                     "create_yr",
                     "create_mon",
+                    "create_mo",
                     "create_wday",
                     "close_yr",
                     "close_mon",
                     "close_wday"))) %>%
     mutate(cnt=1)
 
+abuse_df$Incident.Zip <- as.factor(abuse_df$Incident.Zip)
+
 # convert resolution data into usable form
 res_levels <- levels(abuse_df$Resolution.Description)
 
 abrv_levels <- c("Issued summons",
 	"Made arrest",
-	"Responsible parties were gone",
+	"Responsible parties gone",
 	"Prepared report",
 	"Police action unecessary",
 	"Took action to fix condition",
-	"No evidence of violation seen",
-	"Unable to enter the premises",
-	"Provided additional information",
+	"No evidence of violation",
+	"Unable to enter premises",
+	"Provided additional info",
 	"Not NYPD jurisdiction",
 	"Non-emergency response",
-	"Will provide information later",
-	"Insufficient contact information")
+	"Will provide info later",
+	"Insuff. contact info")
 
 abuse_df$Resolution.Description <- mapvalues(abuse_df$Resolution.Description,
                                              from = res_levels,
@@ -65,14 +69,15 @@ new_names <- c("Complaint.Type",
                "Resolution.Type",
                "Borough",
                "Create_YR",
+               "Create_MON",
                "Create_MO",
                "Create_Wday",
                "Close_YR",
-               "Close_MO",
+               "Close_MON",
                "Close_Wday",
                "Count")
 names(abuse_df) <- new_names
 
 # save data frome for future use
-saveRDS(abuse_df, "./data/abuse_df.rds")
 saveRDS(abuse_df, "./app/data/abuse_df.rds")
+
