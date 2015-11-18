@@ -3,34 +3,48 @@ library(dplyr)
 library(tidyr)
 library(shiny)
 library(ggplot2)
-library(car)
+library(ISLR)
 
-data("Angell")
-angell <- Angell
-df <- cbind(angell, city = rownames(df))
+data("Auto")
+autos <- Auto
+#autos$origin <- as.factor(autos$origin)
 
 server <- (function(input, output) {
     output$plot <- renderPlot({
-        y <- input$var
-        ggplot(df, aes(moral,y))+geom_bar()
+        plot(autos$mpg ~ autos[,input$var])
+    })
+
+    output$summary <- renderPrint({
+        summary(autos)
+    })
+
+    output$table <- renderTable({
+        data.frame(autos)
     })
 })
 
 
 ui <- fluidPage(
-    titlePanel("Moral Integration of American Cities"),
-    sidebarLayout(
-        sidebarPanel(
-            radioButtons(
-                "var", "Variable:",
-                c(
-                    "City" = "city",
-                    "Ethnic Heterogenity" = "hetero",
-                    "Geographic Mobility" = "mobility",
-                    "Geographic Region" = "region"
-                )
+    titlePanel("Automobile Data (ISLR)"),
+    sidebarLayout(sidebarPanel(radioButtons(
+        "var", "Variable:",
+        c(
+            "Cylinders" = "cylinders",
+            "Displacement" = "displacement",
+            "Horsepower" = "horsepower",
+            "Weight" = "weight",
+            "Acceleration" = "acceleration",
+            "Year" = "year",
+            "Origin" = "origin"
+        )
     )),
-    mainPanel(plotOutput("plot")))
+    mainPanel(
+        tabsetPanel(
+            tabPanel("Plot", plotOutput("plot")),
+            tabPanel("Summary", verbatimTextOutput("summary")),
+            tabPanel("Table", tableOutput("table"))
+        )
+    ))
 )
 
 

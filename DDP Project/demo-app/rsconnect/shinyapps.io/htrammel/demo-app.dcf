@@ -1,0 +1,9 @@
+name: demo-app
+account: htrammel
+server: shinyapps.io
+appId: 69332
+bundleId: 313046
+url: https://htrammel.shinyapps.io/demo-app
+when: 1447810611.12386
+asMultiple: FALSE
+asStatic: FALSE
