@@ -16,7 +16,8 @@ server <- (function(input, output, session) {
         plot(selectedData(),
              col = "red",
              pch = 20,
-             cex = 2)
+             cex = 2,
+             log ="")
         lines(lowess(selectedData()),
               col = "blue",
               lwd = 3)
