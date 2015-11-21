@@ -1,0 +1,91 @@
+
+Auto (ISLR) vs. MTCars
+========================================================
+author: Harold L Trammel
+date: Nov. 22, 2015
+
+```{r load-and-process}
+library(ISLR)
+library(dplyr)
+library(ggplot2)
+library(DT)
+
+data("Auto")
+data("mtcars")
+
+auto <- Auto
+cars <- mtcars
+
+mt_names <- names(cars)
+isl_names <- names(auto)
+
+num_isl_var <- length(auto[1,])
+num_isl_obs <- length(auto[,1])
+
+num_mtc_var <- length(cars[1,])
+num_mtc_obs <- length(cars[,1])
+
+mt_fit <- lm(mpg ~ wt + disp + hp + cyl + qsec, data=cars)
+mt_sum <- summary(mt_fit)
+
+isl_fit <- lm(mpg ~ weight + displacement + horsepower + cylinders + acceleration, data=auto)
+isl_sum <- summary(isl_fit)
+```
+
+Motivation
+========================================================
+
+* The MTCars dataset is commonly used as example data.
+    * Contains `r num_mtc_obs` observations for `r num_mtc_var` variables
+    * Standard R dataset component
+    * Includes: `r mt_names`
+
+* The Auto dataset from the ISLR library is somewhat richer.
+    * Contains `r num_isl_obs` observations for `r num_isl_var` variables
+    * Wider range of vehicles, including variations on same vehicle
+    * Includes: `r isl_names`
+
+More Data For Analysis
+========================================================
+MTCars mpg ~ disp
+```{r cars_comp, echo=FALSE}
+mt_pl <- ggplot(cars, aes(mpg, disp)) +
+    geom_point() +
+    geom_smooth()
+print(mt_pl)
+```
+***
+Auto mpg ~ displacement
+```{r auto_comp, echo=FALSE}
+isl_pl <- ggplot(auto, aes(mpg, displacement)) +
+    geom_point() +
+    geom_smooth()
+print(isl_pl)
+```
+
+Comparison of Multiple Regression Models 
+========================================================
+MTCars
+```{r, echo=FALSE}
+print(mt_fit)
+```
+ISLR Auto
+```{r echo=FALSE}
+print(isl_fit)
+```
+
+Summary
+========================================================
+
+Both datasets have strengths and weaknesses
+
+```{r compare_table}
+
+var_list <- list("Compare","Variable Count","Unique Variables","Observations","Convenience","Other")
+mt_list <- list("MTCars",num_mtc_var,"drat, vs, am, gear, carb",num_mtc_obs,"Built in","Carb, am, and drat are useful variables. Car names as rownames. Number of observations low.")
+isl_list <- list("Auto (ISLR)",num_isl_var,"year, origin, name",num_isl_obs,"Have to load ISLR library","Year and origin are useful variables. Names as separate varible helpful. Many observations.")
+
+comp_df <- NULL
+comp_df <- cbind(comp_df, var_list, mt_list, isl_list)
+    
+```
