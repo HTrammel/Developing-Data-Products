@@ -1,0 +1,45 @@
+---
+title: "about"
+author: "Harold Trammel"
+date: "November 18, 2015"
+output: html_document
+---
+## Auto Data Set
+
+### Description
+
+Gas mileage, horsepower, and other information for 392 vehicles.
+
+### Usage
+
+Auto
+
+### Format
+
+A data frame with 392 observations on the following 9 variables.
+
+* __mpg:__ miles per gallon
+* __cylinders:__ Number of cylinders between 4 and 8
+* __displacement:__ Engine displacement (cu. inches)
+* __horsepower:__ Engine horsepower
+* __weight:__ Vehicle weight (lbs.)
+* __acceleration:__ Time to accelerate from 0 to 60 mph (sec.)
+* __year:__ Model year (modulo 100)
+* __origin:__ Origin of car (1. American, 2. European, 3. Japanese)
+* __name:__ Vehicle name
+
+The orginal data contained 408 observations but 16 observations with missing values were removed.
+
+## Source
+
+This dataset was taken from the StatLib library which is maintained at Carnegie Mellon University. The dataset was used in the 1983 American Statistical Association Exposition.
+
+## References
+
+Games, G., Witten, D., Hastie, T., and Tibshirani, R. (2013) _An Introduction to Statistical Learning with applications in R_, www.StatLearning.com, Springer-Verlag, New York
+
+## Examples
+
+pairs(Auto)
+attach(Auto)
+hist(mpg)

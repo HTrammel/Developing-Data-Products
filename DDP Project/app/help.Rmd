@@ -1,0 +1,45 @@
+---
+title: "help"
+author: "Harold Trammel"
+date: "November 20, 2015"
+output: html_document
+---
+
+## Help for __Auto (ISLR) Evaluation__ 
+
+The __Auto (ISLR) Evaluation__ has six tabs:
+
+* Regression Plots
+* Forest or Boosted
+* Summary
+* Table
+* Help
+* About
+
+### Regression Plots
+
+The Regression Plots tab provides two control sets and the resulting plot.  
+
+The first control set are selectors for choosing the X and Y axis variables.  With the exception of "Names", all of the variables in the Auto (ISLR) dataset are available in both selectors.
+
+The second control set is comprised of four radio buttons that allow the user to change one or both of the axis to use a log10 scale.  There is also a button to remove the log10 scales.
+
+### Forest or Boosted
+
+A random forest model and a boosted model were prepared using 70% of the Auto data as training data.  This tab allows the user to compare the methods results.  For both models, a plot of the prediction against the testing data is generated depending on the radio button selected.  The summary of the selected model is shown below the plot.
+
+### Summary
+
+This tab shows the results of the summary function applied to the Auto dataset with the automobile names removed.
+
+### Table
+
+This tab provides a sortable data table for the entire Auto data set.  At the top of each column is a control to change the sort of the data.
+
+### Help 
+
+This document.
+
+### About 
+
+The official description page for the Auto dataset.
